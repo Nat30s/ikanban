@@ -3,140 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simple Kanban Todo App</title>
+  <title>Kanban Todo App</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'San Francisco', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
     .kanban-column {
-      min-width: 300px;
-      margin: 10px;
+      min-width: 320px;
+      margin: 1rem;
+      background: #ffffff;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .task {
-      background-color: #f9fafb;
-      padding: 10px;
-      margin: 5px 0;
-      border-radius: 5px;
+      background-color: #f1f3f5;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 12px;
       cursor: move;
+      transition: background-color 0.2s;
+    }
+    .task:hover {
+      background-color: #e9ecef;
+    }
+    .task-container {
+      min-height: 150px;
+      border: 2px dashed #dee2e6;
+      padding: 10px;
+      border-radius: 1rem;
+    }
+    button {
+      background: linear-gradient(135deg, #007aff, #5856d6);
+      color: white;
+      font-weight: bold;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #5856d6, #007aff);
     }
   </style>
 </head>
-<body class="bg-gray-100 p-8">
-  <h1 class="text-3xl font-bold mb-6">Simple Kanban Todo App</h1>
+<body class="p-8">
+  <h1 class="text-4xl font-extrabold text-gray-800 mb-10 text-center">Kanban Todo App</h1>
 
-  <div class="flex justify-between">
-    <div id="backlog" class="kanban-column bg-white p-4 shadow rounded-md">
-      <h2 class="text-xl font-semibold mb-4">Backlog</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div id="backlog" class="kanban-column">
+      <h2 class="text-2xl font-semibold text-gray-700">Backlog</h2>
       <div id="backlog-tasks" class="task-container"></div>
-      <button onclick="addTask('backlog')" class="mt-2 bg-blue-500 text-white px-3 py-1 rounded">Add Task</button>
+      <button onclick="addTask('backlog')" class="mt-4">Add Task</button>
     </div>
 
-    <div id="in-progress" class="kanban-column bg-white p-4 shadow rounded-md">
-      <h2 class="text-xl font-semibold mb-4">In Progress</h2>
+    <div id="in-progress" class="kanban-column">
+      <h2 class="text-2xl font-semibold text-gray-700">In Progress</h2>
       <div id="in-progress-tasks" class="task-container"></div>
-      <button onclick="addTask('in-progress')" class="mt-2 bg-yellow-500 text-white px-3 py-1 rounded">Add Task</button>
+      <button onclick="addTask('in-progress')" class="mt-4">Add Task</button>
     </div>
 
-    <div id="completed" class="kanban-column bg-white p-4 shadow rounded-md">
-      <h2 class="text-xl font-semibold mb-4">Completed</h2>
+    <div id="completed" class="kanban-column">
+      <h2 class="text-2xl font-semibold text-gray-700">Completed</h2>
       <div id="completed-tasks" class="task-container"></div>
-      <button onclick="addTask('completed')" class="mt-2 bg-green-500 text-white px-3 py-1 rounded">Add Task</button>
+      <button onclick="addTask('completed')" class="mt-4">Add Task</button>
     </div>
   </div>
 
-  <div class="mt-8">
-    <button onclick="saveMarkdown()" class="bg-teal-500 text-white px-4 py-2 rounded">Save to Markdown</button>
-    <button onclick="loadMarkdown()" class="bg-gray-500 text-white px-4 py-2 ml-2 rounded">Load Markdown</button>
+  <div class="mt-12 flex justify-center space-x-4">
+    <button onclick="saveMarkdown()" class="bg-teal-500 px-6 py-3">Save to Markdown</button>
+    <button onclick="loadMarkdown()" class="bg-gray-500 px-6 py-3">Load Markdown</button>
   </div>
 
   <input type="file" id="fileInput" hidden onchange="readFile(event)" />
-
-  <script>
-    // Task management logic
-    function addTask(columnId) {
-      const taskText = prompt("Enter task:");
-      if (taskText) {
-        const taskEl = document.createElement("div");
-        taskEl.className = "task";
-        taskEl.textContent = taskText;
-        taskEl.draggable = true;
-        taskEl.addEventListener("dragstart", handleDragStart);
-        document.getElementById(`${columnId}-tasks`).appendChild(taskEl);
-      }
-    }
-
-    // Drag-and-drop functionality
-    document.querySelectorAll(".task-container").forEach(container => {
-      container.addEventListener("dragover", e => e.preventDefault());
-      container.addEventListener("drop", handleDrop);
-    });
-
-    function handleDragStart(e) {
-      e.dataTransfer.setData("text", e.target.id);
-      e.target.classList.add("dragging");
-    }
-
-    function handleDrop(e) {
-      const taskEl = document.querySelector(".dragging");
-      e.target.appendChild(taskEl);
-      taskEl.classList.remove("dragging");
-    }
-
-    // Markdown file operations
-    function saveMarkdown() {
-      let content = "";
-      ["backlog", "in-progress", "completed"].forEach(column => {
-        content += `## ${column}\n`;
-        document.querySelectorAll(`#${column}-tasks .task`).forEach(task => {
-          content += `- [ ] ${task.textContent}\n`;
-        });
-      });
-      const blob = new Blob([content], { type: "text/markdown" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "tasks.md";
-      a.click();
-    }
-
-    function loadMarkdown() {
-      document.getElementById("fileInput").click();
-    }
-
-    function readFile(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = e => parseMarkdown(e.target.result);
-        reader.readAsText(file);
-      }
-    }
-
-    function parseMarkdown(content) {
-      const columns = { backlog: [], "in-progress": [], completed: [] };
-      let currentColumn = "backlog";
-      content.split("\n").forEach(line => {
-        if (line.startsWith("##")) {
-          currentColumn = line.replace("##", "").trim();
-        } else if (line.startsWith("- [ ]")) {
-          const taskText = line.replace("- [ ]", "").trim();
-          columns[currentColumn].push(taskText);
-        }
-      });
-      updateUI(columns);
-    }
-
-    function updateUI(columns) {
-      ["backlog", "in-progress", "completed"].forEach(column => {
-        const container = document.getElementById(`${column}-tasks`);
-        container.innerHTML = "";
-        columns[column].forEach(taskText => {
-          const taskEl = document.createElement("div");
-          taskEl.className = "task";
-          taskEl.textContent = taskText;
-          taskEl.draggable = true;
-          taskEl.addEventListener("dragstart", handleDragStart);
-          container.appendChild(taskEl);
-        });
-      });
-    }
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
