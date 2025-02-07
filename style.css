@@ -52,4 +52,16 @@ body {
     border: 1px solid #d1d5db; /* Light gray border */
     border-radius: 12px;
     cursor: pointer;
-    transition: background 0.2s, transform 0.2s, box-shadow 0
+    transition: background 0.2s, transform 0.2s, box-shadow 0 .2s;
+  }
+  
+  button:hover {
+    background-color: #e0e0e5; /* Slightly darker gray on hover */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
