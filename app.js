@@ -48,6 +48,13 @@ function openAddTaskPopup(column) {
             taskElement.className = 'task';
             taskElement.innerHTML = marked(taskTitle); // Convert markdown to HTML
 
+            // Enable drag-and-drop
+            taskElement.setAttribute('draggable', true);
+            taskElement.ondragstart = function(event) {
+                event.dataTransfer.setData('text/plain', taskElement.innerHTML);
+                event.dataTransfer.setData('text/plain', column); // Store the original column
+            };
+
             // Add click event to edit the task
             taskElement.onclick = function() {
                 openEditTaskPopup(taskElement);
@@ -110,7 +117,7 @@ function openEditTaskPopup(taskElement) {
             taskElement.innerHTML = marked(updatedTaskTitle); // Update the task with new content
             modal.remove();
         } else {
- console.warn('Updated task title is empty.'); // Warn if the updated task title is empty
+            console.warn('Updated task title is empty.'); // Warn if the updated task title is empty
         }
     };
 
@@ -126,3 +133,35 @@ function openEditTaskPopup(taskElement) {
     
     document.body.appendChild(modal);
 }
+
+// Enable drop functionality for task containers
+document.querySelectorAll('.task-container').forEach(container => {
+ container.ondragover = function(event) {
+        event.preventDefault(); // Allow the drop
+    };
+
+    container.ondrop = function(event) {
+        event.preventDefault();
+        const taskHTML = event.dataTransfer.getData('text/plain');
+        const originalColumn = event.dataTransfer.getData('text/plain');
+        
+        const taskElement = document.createElement('div');
+        taskElement.className = 'task';
+        taskElement.innerHTML = taskHTML; // Set the task content
+
+        // Enable drag-and-drop for the new task element
+        taskElement.setAttribute('draggable', true);
+        taskElement.ondragstart = function(event) {
+            event.dataTransfer.setData('text/plain', taskElement.innerHTML);
+            event.dataTransfer.setData('text/plain', originalColumn); // Store the original column
+        };
+
+        // Add click event to edit the task
+        taskElement.onclick = function() {
+            openEditTaskPopup(taskElement);
+        };
+
+        container.appendChild(taskElement); // Add the task to the new container
+        console.log('Task moved to container:', container.id); // Log the move action
+    };
+}); 
