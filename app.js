@@ -83,7 +83,7 @@ function saveMarkdown() {
 }
 
 function loadMarkdown() {
-    const fileInput = document.getElementById('fileInput');
+    const fileInput = document.getElementBy Id('fileInput');
     fileInput.click();
 }
 
@@ -99,7 +99,7 @@ function readFile(event) {
                 const taskElement = document.createElement('div');
                 taskElement.className = 'task';
                 taskElement.innerHTML = marked(task); // Convert markdown to HTML
-                task Container.appendChild(taskElement);
+                taskContainer.appendChild(taskElement); // Corrected from task Container to taskContainer
             }
         });
     };
