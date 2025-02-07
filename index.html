@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kanban Todo App</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     body {
@@ -60,19 +61,19 @@
     <div id="backlog" class="kanban-column">
       <h2 class="text-2xl font-semibold text-gray-700">Backlog</h2>
       <div id="backlog-tasks" class="task-container"></div>
-      <button onclick="addTask('backlog')" class="mt-4">Add Task</button>
+      <button onclick="openAddTaskPopup('backlog')" class="mt-4">Add Task</button>
     </div>
 
     <div id="in-progress" class="kanban-column">
       <h2 class="text-2xl font-semibold text-gray-700">In Progress</h2>
       <div id="in-progress-tasks" class="task-container"></div>
-      <button onclick="addTask('in-progress')" class="mt-4">Add Task</button>
+      <button onclick="openAddTaskPopup('in-progress')" class="mt-4">Add Task</button>
     </div>
 
     <div id="completed" class="kanban-column">
       <h2 class="text-2xl font-semibold text-gray-700">Completed</h2>
       <div id="completed-tasks" class="task-container"></div>
-      <button onclick="addTask('completed')" class="mt-4">Add Task</button>
+      <button onclick="openAddTaskPopup('completed')" class="mt-4">Add Task</button>
     </div>
   </div>
 
