@@ -50,18 +50,19 @@
       background-color: #f9fafb; /* Very light gray background for task container */
     }
     button {
-      background: linear-gradient(135deg, #4a90e2, #50e3c2); /* Soft gradient */
-      color: white;
+      background-color: #f0f0f5; /* Soft gray background */
+      color: #333; /* Dark text color */
       font-weight: bold;
       padding: 10px 16px;
-      border: none;
+      border: 1px solid #d1d5db; /* Light gray border */
       border-radius: 12px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
     }
     button:hover {
-      background: linear-gradient(135deg, #50e3c2, #4a90e2); /* Reverse gradient on hover */
+      background-color: #e0e0e5; /* Slightly darker gray on hover */
       transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
     }
     .header {
       text-align: center;
@@ -92,9 +93,8 @@
     </div>
   </div>
 
-  <div class="mt-12 flex justify-center space-x-4">
-    <button onclick="saveMarkdown()" class="bg-teal-500 px-6 py-3">Save to Markdown</button>
-    <button onclick ="loadMarkdown()" class="bg-gray-500 px-6 py-3">Load Markdown</button>
+  <div class="mt-12 flex justify-center space-x-4 <button onclick="saveMarkdown()" class="bg-gray-300 px-6 py-3">Save to Markdown</button>
+    <button onclick="loadMarkdown()" class="bg-gray-300 px-6 py-3">Load Markdown</button>
   </div>
 
   <input type="file" id="fileInput" hidden onchange="readFile(event)" />
