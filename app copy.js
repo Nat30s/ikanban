@@ -1,6 +1,6 @@
 function openAddTaskPopup(column) {
-    console.log('openAddTaskPopup called for column:', column);
-    
+    console.log('openAddTaskPopup called for column:', column); // Debug log for function call
+    console.log('Initializing SimpleMDE...'); // Debug log for SimpleMDE initialization
     // Create a modal for adding a task
     const modal = document.createElement('div');
     modal.style.position = 'fixed';
@@ -25,29 +25,32 @@ function openAddTaskPopup(column) {
     const taskInput = document.createElement('textarea');
     taskInput.placeholder = 'Enter your task here...';
     modalContent.appendChild(taskInput);
+    console.log('SimpleMDE initialized'); // Debug log for SimpleMDE
 
     // Initialize SimpleMDE
     const simplemde = new SimpleMDE({ element: taskInput });
+    console.log('SimpleMDE instance created'); // Debug log for SimpleMDE instance
 
     // Create button to add task
     const addButton = document.createElement('button');
     addButton.innerText = 'Add Task';
+    console.log('Add Task button created'); // Debug log for button creation
     addButton.onclick = function() {
         const taskTitle = simplemde.value(); // Get the value from SimpleMDE
         if (taskTitle) {
-            console.log('Task Title:', taskTitle);
+            console.log('Task Title:', taskTitle); // Debug log for task title
+            console.log('Adding task to column:', column); // Debug log for column
+            console.log('Target Column:', column); // Debug log for target column
             const taskContainer = document.getElementById(column + '-tasks');
             if (!taskContainer) {
-                console.error('Task container not found for column:', column);
-                return;
+                console.error('Task container not found for column:', column); // Error handling
+                return; // Exit if the container is not found
             }
             const taskElement = document.createElement('div');
             taskElement.className = 'task';
             taskElement.innerHTML = marked(taskTitle); // Convert markdown to HTML
             taskContainer.appendChild(taskElement);
             modal.remove(); // Close the modal after adding the task
-        } else {
-            console.warn('Task title is empty.'); // Warn if the task title is empty
         }
     };
 
@@ -99,7 +102,7 @@ function readFile(event) {
                 const taskElement = document.createElement('div');
                 taskElement.className = 'task';
                 taskElement.innerHTML = marked(task); // Convert markdown to HTML
-                task Container.appendChild(taskElement);
+                taskContainer.appendChild(taskElement);
             }
         });
     };
