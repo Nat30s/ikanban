@@ -48,6 +48,9 @@ function openAddTaskPopup(column) {
             taskElement.className = 'task';
             taskElement.innerHTML = marked(taskTitle); // Convert markdown to HTML
 
+            // Assign a unique ID to the task
+            taskElement.id = 'task-' + Date.now(); // Example of generating a unique ID
+
             // Enable drag-and-drop
             taskElement.setAttribute('draggable', true);
             taskElement.ondragstart = function(event) {
@@ -149,6 +152,9 @@ document.querySelectorAll('.task-container').forEach(container => {
         const taskElement = document.createElement('div');
         taskElement.className = 'task';
         taskElement.innerHTML = taskHTML; // Set the task content
+
+        // Assign a unique ID to the task
+        taskElement.id = 'task-' + Date.now(); // Example of generating a unique ID
 
         // Enable drag-and-drop for the new task element
         taskElement.setAttribute('draggable', true);
