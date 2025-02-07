@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Todo App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplemde/dist/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked@1.2.3/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simplemde/dist/simplemde.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> <!-- Link to the external CSS file -->
+</head>
+<body class="p-8">
+    <h1 class="header text-4xl font-extrabold text-gray-800">Kanban Todo App</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div id="backlog" class="kanban-column">
+            <h2 class="text-2xl font-semibold text-gray-700">Backlog</h2>
+            <div id="backlog-tasks" class="task-container"></div>
+            <button onclick="openAddTaskPopup('backlog')" class="mt-4">Add Task</button>
+        </div>
+
+        <div id="in-progress" class="kanban-column">
+            <h2 class="text-2xl font-semibold text-gray-700">In Progress</h2>
+            <div id="in-progress-tasks" class="task-container"></div>
+            <button onclick="openAddTaskPopup('in-progress')" class="mt-4">Add Task</button>
+        </div>
+
+        <div id="completed" class="kanban-column">
+            <h2 class="text-2xl font-semibold text-gray-700">Completed</h2>
+            <div id="completed-tasks" class="task-container"></div>
+            <button onclick="openAddTaskPopup('completed')" class="mt-4">Add Task</button>
+        </div>
+    </div>
+
+    <div class="mt-12 flex justify-center space-x-4">
+        <button onclick="saveMarkdown()" class="bg-gray-300 px-6 py-3">Save to Markdown</button>
+        <button onclick="loadMarkdown()" class="bg-gray-300 px-6 py-3">Load Markdown</button>
+    </div>
+
+    <input type="file" id="fileInput" hidden onchange="readFile(event)" />
+    <script src="app.js"></script> <!-- Your app.js file -->
+</body>
+</html>
