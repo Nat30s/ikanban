@@ -1,3 +1,4 @@
+console.log('Marked function:', marked); // This should log the function definition
 function openAddTaskPopup(column) {
     console.log('openAddTaskPopup called for column:', column); // Debug log for function call
     console.log('Initializing SimpleMDE...'); // Debug log for SimpleMDE initialization
