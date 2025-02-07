@@ -1,4 +1,6 @@
 function openAddTaskPopup(column) {
+    console.log('openAddTaskPopup called for column:', column); // Debug log for function call
+    console.log('Initializing SimpleMDE...'); // Debug log for SimpleMDE initialization
     // Create a modal for adding a task
     const modal = document.createElement('div');
     modal.style.position = 'fixed';
@@ -18,62 +20,32 @@ function openAddTaskPopup(column) {
     modalContent.style.padding = '20px';
     modalContent.style.borderRadius = '5px';
     modalContent.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-    
-    // Create input for task title
+
+    // Create input for task title using SimpleMDE
     const taskInput = document.createElement('textarea');
     taskInput.placeholder = 'Enter your task here...';
-    taskInput.style.width = '100%';
-    taskInput.style.height = '100px';
-    taskInput.style.marginBottom = '10px';
+    modalContent.appendChild(taskInput);
+    console.log('SimpleMDE initialized'); // Debug log for SimpleMDE
 
-    // Create a toolbar for markdown formatting
-    const toolbar = document.createElement('div');
-    toolbar.style.display = 'flex';
-    toolbar.style.justifyContent = 'space-between';
-    toolbar.style.marginBottom = '10px';
+    // Initialize SimpleMDE
+    const simplemde = new SimpleMDE({ element: taskInput });
+    console.log('SimpleMDE instance created'); // Debug log for SimpleMDE instance
 
-    // Create buttons for markdown formatting
-    const boldButton = document.createElement('button');
-    boldButton.innerText = 'Bold';
-    boldButton.onclick = function() {
-        taskInput.value += '**Bold Text**'; // Example markdown for bold
-    };
-
-    const italicButton = document.createElement('button');
-    italicButton.innerText = 'Italic';
-    italicButton.onclick = function() {
-        taskInput.value += '*Italic Text*'; // Example markdown for italic
-    };
-
-    const strikethroughButton = document.createElement('button');
-    strikethroughButton.innerText = 'Strikethrough';
-    strikethroughButton.onclick = function() {
-        taskInput.value += '~~Strikethrough~~'; // Example markdown for strikethrough
-    };
-
-    const headingButton = document.createElement('button');
-    headingButton.innerText = 'Heading';
-    headingButton.onclick = function() {
-        taskInput.value += '# Heading'; // Example markdown for heading
-    };
-
-    // Append buttons to the toolbar
-    toolbar.appendChild(boldButton);
-    toolbar.appendChild(italicButton);
-    toolbar.appendChild(strikethroughButton);
-    toolbar.appendChild(headingButton);
-
-    // Append toolbar and input to modal content
-    modalContent.appendChild(toolbar);
-    
     // Create button to add task
     const addButton = document.createElement('button');
     addButton.innerText = 'Add Task';
+    console.log('Add Task button created'); // Debug log for button creation
     addButton.onclick = function() {
-        const taskTitle = taskInput.value;
+        const taskTitle = simplemde.value(); // Get the value from SimpleMDE
         if (taskTitle) {
-            // Logic to add the task to the specified column
+            console.log('Task Title:', taskTitle); // Debug log for task title
+            console.log('Adding task to column:', column); // Debug log for column
+            console.log('Target Column:', column); // Debug log for target column
             const taskContainer = document.getElementById(column + '-tasks');
+            if (!taskContainer) {
+                console.error('Task container not found for column:', column); // Error handling
+                return; // Exit if the container is not found
+            }
             const taskElement = document.createElement('div');
             taskElement.className = 'task';
             taskElement.innerHTML = marked(taskTitle); // Convert markdown to HTML
@@ -90,7 +62,6 @@ function openAddTaskPopup(column) {
     };
 
     // Append elements to modal content
-    modalContent.appendChild(taskInput);
     modalContent.appendChild(addButton);
     modalContent.appendChild(closeButton);
     modal.appendChild(modalContent);
