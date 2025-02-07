@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kanban Todo App</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplemde/dist/simplemde.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/simplemde/dist/simplemde.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f0f4f8;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .kanban-column {
+      min-width: 320px;
+      margin: 1rem;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s;
+    }
+    .kanban-column:hover {
+      transform: translateY(-2px);
+    }
+    .task {
+      background-color: #f9f9f9;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 12px;
+      cursor: move;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+    .task:hover {
+      background-color: #e0e0e0;
+      transform: translateY(-1px);
+    }
+    .task-container {
+      min-height: 150px;
+      border: 2px dashed #d1d5db;
+      padding: 10px;
+      border-radius: 12px;
+      background-color: #f7f9fc;
+    }
+    button {
+      background: linear-gradient(135deg, #007aff, #5856d6);
+      color: white;
+      font-weight: bold;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #5856d6, #007aff);
+      transform: translateY(-1px);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body class="p-8">
+  <h1 class="header text-4xl font-extrabold text-gray-800">Kanban Todo App</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div id="backlog" class="kanban-column">
+      <h2 class="text-2xl font-semibold text-gray-700">Backlog</h2>
+      <div id="backlog-tasks" class="task-container"></div>
+      <button onclick="openAddTaskPopup('backlog')" class="mt-4">Add Task</button>
+    </div>
+
+    <div id="in-progress" class="kanban-column">
+      <h2 class="text-2xl font-semibold text-gray-700">In Progress</h2>
+      <div id="in-progress-tasks" class="task-container"></div>
+      <button onclick="openAddTaskPopup('in-progress')" class="mt-4">Add Task</button>
+    </div>
+
+    <div id="completed" class="kanban-column">
+      <h2 class="text-2xl font-semibold text-gray-700">Completed</h2>
+      <div id="completed-tasks" class="task-container"></div>
+      <button onclick="openAddTaskPopup('completed')" class="mt-4">Add Task</button>
+    </div>
+  </div>
+
+  <div class="mt-12 flex justify-center space-x-4">
+    <button onclick="saveMarkdown()" class="bg-teal-500 px-6 py-3">Save to Markdown</button>
+    <button onclick="loadMarkdown()" class="bg-gray-500 px-6 py-3">Load Markdown</button>
+  </div>
+
+  <input type="file" id="fileInput" hidden onchange="readFile(event)" />
+  <script src=" app.js"></script>
+</body>
+</html>
